@@ -1,12 +1,22 @@
 /**
+ * @author Edouard Demotes-Mainard <https://github.com/EdouardDem>
+ * @license http://opensource.org/licenses/BSD-2-Clause BSD 2-Clause License
+ */
+
+/**
+ * Object djs for namespace
+ */
+window.djs = window.djs || {};
+
+/**
  * Cette classe permet de gérer les redimensionnement de la fenêtre
  * Elle permet d'avoir un temps latence pour détecter la fin du redimensionnement
  * Elle gère également l'ordre des appels via la classe callStack
  * La pile d'appels se gère via la propriété stack
  *
- * @requires CallStack
+ * @requires djs.CallStack <https://github.com/EdouardDem/djs-call-stack>
  */
-resize = {
+djs.resize = {
 
     /*
 	 * Properties
@@ -43,7 +53,7 @@ resize = {
 		this.$window = $(window);
 		this.$body = $('body');
         $.each(this.stacks, function(i,e) {
-            this._stacks[e] = new CallStack();
+            this._stacks[e] = new djs.CallStack();
         }.bind(this));
         this.stack = this._stacks.main;
 		//Bind les events
