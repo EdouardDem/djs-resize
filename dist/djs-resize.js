@@ -9,8 +9,8 @@
 window.djs = window.djs || {};
 
 /**
- * This object manages window's resizing.
- * It allows to have a delay to detect the end of the resizing.
+ * This object manages window's resizing event.
+ * It detects the end of the resizing events suite and trigger callbacks.
  * It also allows to manage callbacks order through the class djs.Callstack
  *
  * @see https://github.com/EdouardDem/djs-resize
