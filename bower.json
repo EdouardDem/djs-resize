@@ -1,6 +1,6 @@
 {
   "name": "djs-resize",
-  "description": "JavaScript library to manage callback sets",
+  "description": "JavaScript library to manage window resize events",
   "main": [
     "dist/djs-resize.js",
     "dist/djs-resize.min.js"
