@@ -1,1 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
+# IDE
+/.idea
+# NodeJS modules
+/node_modules
+# Bower components
+/bower_components
