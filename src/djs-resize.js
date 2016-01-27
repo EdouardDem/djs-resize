@@ -18,7 +18,7 @@ window.djs = window.djs || {};
  */
 djs.resize = {
 
-	/* =========================================================================
+	/* ========================================================================
 	 * 	PROPERTIES
 	 * ====================================================================== */
 	/**
@@ -103,7 +103,7 @@ djs.resize = {
 
 
 
-	/* =========================================================================
+	/* ========================================================================
 	 * 	INITIALIZATION
 	 * ====================================================================== */
 	/**
@@ -167,87 +167,108 @@ djs.resize = {
 	},
 
 	/**
-	 * Destroy the object
+	 * Destroy the object (if initialized)
  	 *
 	 * @return {Object}
 	 */
-    uninit: function() {
-		//Check
+    destroy: function() {
+
+		// Check if already initialized
 		if (!this.initialized) return this;
-		//Unbind les events
+
+		// Unbind the events
 		this.$window.unbind('resize.'+this.namespace);
+
+		// Reset the stacks
         this.stack = null;
         this._stacks = {};
-		//Flag
+
+		// Unset the flag
 		this.initialized = false;
 
+		// Return self
  		return this;
    	},
 	/**
-	 * Réinitialise la classe
+	 * Re-initialize the object
  	 *
 	 * @return {Object}
 	 */
     reinit: function() {
-		return this.uninit().init();
+		// Destroy and init
+		return this.destroy().init();
    	},
 
 
 
-	/* =========================================================================
+	/* ========================================================================
 	 * 	BINDING
 	 * ====================================================================== */
 	/**
-	 * Ajoute une function à la pile
+	 * Add a callback to a stack. Default, to the main stack
 	 *
      * @param {String} namespace
      * @param {Function} callback
-     * @param {String} stackName
+     * @param {String} stackName (default : djs.resize.stacks.main)
 	 * @return {Object}
 	 */
 	bind: function(namespace, callback, stackName) {
-        //Default
+
+		// Default value for stackName
         if (stackName==null) stackName = this.stacks.main;
-        //add
+
+		// Push the callback to the stack
 		this._stacks[stackName].add(namespace, callback);
+
+		// Return self
 		return this;
 	},
 	/**
-	 * Supprime une function de la pile
- 	 *
+	 * Remove a callback to a stack. Default, from the main stack
+	 *
      * @param {String} namespace
-     * @param {String} stackName
+     * @param {String} stackName (default : djs.resize.stacks.main)
 	 * @return {Object}
 	 */
     unbind: function(namespace, stackName) {
-        //Default
+
+		// Default value for stackName
         if (stackName==null) stackName = this.stacks.main;
-        //Delete
+
+        //Delete callback from the stack
 		this._stacks[stackName].delete(namespace);
+
+		// Return self
  		return this;
     },
 
 
 
-	/* =========================================================================
+	/* ========================================================================
 	 * 	METHODS
 	 * ====================================================================== */
 
 	/**
-	 * Execute les piles
+	 * Runs all the stacks.
+	 * Subroutine of the resize event.
+	 * Call this function to force refresh
  	 *
 	 * @return {Object}
 	 */
 	refresh: function() {
-        //Body class
+
+        // Add flag to body (for CSS use)
         this.$body.addClass(this.classes.resizing);
-        //Run all stacks
+
+        // Run all stacks
         $.each(this.stacks, function(i,e) {
             this._stacks[e].run();
         }.bind(this));
-        //Body class
+
+        // Remove flag from body
         this.$body.removeClass(this.classes.resizing);
 
+		// Return self
         return this;
 	}
 };
