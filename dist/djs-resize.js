@@ -29,27 +29,27 @@ djs.resize = {
 	 *
 	 * @var {Integer}
 	 */
-    delay: 0,
+	delay: 0,
 
 	/**
 	 * CSS classes used to tag the body while processing
 	 *
 	 * @var {Object}
 	 */
-    classes: {
-        resizing: 'resizing'
-    },
+	classes: {
+		resizing: 'resizing'
+	},
 
 	/**
 	 * Names and order of the call stacks used by this object
 	 *
 	 * @var {Object}
 	 */
-    stacks: {
-        core: 'core',
-        main: 'main',
-        last: 'last'
-    },
+	stacks: {
+		core: 'core',
+		main: 'main',
+		last: 'last'
+	},
 
 	/**
 	 * Namespace used to bind events
@@ -84,23 +84,21 @@ djs.resize = {
 	 *
 	 * @var {Object}
 	 */
-    _stacks: {},
+	_stacks: {},
 
 	/**
 	 * Shortcut to _stack.main
 	 *
 	 * @var {Object}
 	 */
-    stack: null,
+	stack: null,
 
 	/**
 	 * Object used to get inactivity delay
 	 *
 	 * @var {Object}
 	 */
-    timeout: null,
-
-
+	timeout: null,
 
 
 	/* ========================================================================
@@ -111,7 +109,7 @@ djs.resize = {
 	 *
 	 * @return {Object}
 	 */
-	init: function() {
+	init: function () {
 
 		// Check if already initialized
 		if (this.initialized) return this;
@@ -121,41 +119,41 @@ djs.resize = {
 		this.$body = $('body');
 
 		// Initialize the call stacks
-		$.each(this.stacks, function(i,e) {
-            this._stacks[e] = new djs.CallStack();
-        }.bind(this));
+		$.each(this.stacks, function (i, e) {
+			this._stacks[e] = new djs.CallStack();
+		}.bind(this));
 
 		// Short cut to the main stack
-        this.stack = this._stacks.main;
+		this.stack = this._stacks.main;
 
 		// Bind the resize event
-        this.$window.bind('resize.'+this.namespace, function() {
+		this.$window.bind('resize.' + this.namespace, function () {
 
 			// Check if initialized
 			if (this.initialized) {
 
-                // If a delay is defined, we set a timeout to trigger call stacks
-                if (this.delay>0) {
+				// If a delay is defined, we set a timeout to trigger call stacks
+				if (this.delay > 0) {
 
-                    // Clear timeout of previous resize's event
-                    clearTimeout(this.timeout);
+					// Clear timeout of previous resize's event
+					clearTimeout(this.timeout);
 
-                    // Set new timeout
-                    this.timeout = setTimeout(function () {
+					// Set new timeout
+					this.timeout = setTimeout(function () {
 
 						// Call the refresh
-                        this.refresh();
+						this.refresh();
 
-                    }.bind(this), this.delay);
+					}.bind(this), this.delay);
 
-                }
+				}
 
 				// If no delay, just call the refresh function
 				else {
-                    this.refresh();
-                }
+					this.refresh();
+				}
 
-            }
+			}
 
 		}.bind(this));
 
@@ -168,37 +166,36 @@ djs.resize = {
 
 	/**
 	 * Destroy the object (if initialized)
- 	 *
+	 *
 	 * @return {Object}
 	 */
-    destroy: function() {
+	destroy: function () {
 
 		// Check if already initialized
 		if (!this.initialized) return this;
 
 		// Unbind the events
-		this.$window.unbind('resize.'+this.namespace);
+		this.$window.unbind('resize.' + this.namespace);
 
 		// Reset the stacks
-        this.stack = null;
-        this._stacks = {};
+		this.stack = null;
+		this._stacks = {};
 
 		// Unset the flag
 		this.initialized = false;
 
 		// Return self
- 		return this;
-   	},
+		return this;
+	},
 	/**
 	 * Re-initialize the object
- 	 *
+	 *
 	 * @return {Object}
 	 */
-    reinit: function() {
+	reinit: function () {
 		// Destroy and init
 		return this.destroy().init();
-   	},
-
+	},
 
 
 	/* ========================================================================
@@ -207,15 +204,15 @@ djs.resize = {
 	/**
 	 * Add a callback to a stack. Default, to the main stack
 	 *
-     * @param {String} namespace
-     * @param {Function} callback
-     * @param {String} stackName (default : djs.resize.stacks.main)
+	 * @param {String} namespace
+	 * @param {Function} callback
+	 * @param {String} stackName (default : djs.resize.stacks.main)
 	 * @return {Object}
 	 */
-	bind: function(namespace, callback, stackName) {
+	bind: function (namespace, callback, stackName) {
 
 		// Default value for stackName
-        if (stackName==null) stackName = this.stacks.main;
+		if (stackName == null) stackName = this.stacks.main;
 
 		// Push the callback to the stack
 		this._stacks[stackName].add(namespace, callback);
@@ -226,22 +223,21 @@ djs.resize = {
 	/**
 	 * Remove a callback to a stack. Default, from the main stack
 	 *
-     * @param {String} namespace
-     * @param {String} stackName (default : djs.resize.stacks.main)
+	 * @param {String} namespace
+	 * @param {String} stackName (default : djs.resize.stacks.main)
 	 * @return {Object}
 	 */
-    unbind: function(namespace, stackName) {
+	unbind: function (namespace, stackName) {
 
 		// Default value for stackName
-        if (stackName==null) stackName = this.stacks.main;
+		if (stackName == null) stackName = this.stacks.main;
 
-        //Delete callback from the stack
+		//Delete callback from the stack
 		this._stacks[stackName].delete(namespace);
 
 		// Return self
- 		return this;
-    },
-
+		return this;
+	},
 
 
 	/* ========================================================================
@@ -252,23 +248,23 @@ djs.resize = {
 	 * Runs all the stacks.
 	 * Subroutine of the resize event.
 	 * Call this function to force refresh
- 	 *
+	 *
 	 * @return {Object}
 	 */
-	refresh: function() {
+	refresh: function () {
 
-        // Add flag to body (for CSS use)
-        this.$body.addClass(this.classes.resizing);
+		// Add flag to body (for CSS use)
+		this.$body.addClass(this.classes.resizing);
 
-        // Run all stacks
-        $.each(this.stacks, function(i,e) {
-            this._stacks[e].run();
-        }.bind(this));
+		// Run all stacks
+		$.each(this.stacks, function (i, e) {
+			this._stacks[e].run();
+		}.bind(this));
 
-        // Remove flag from body
-        this.$body.removeClass(this.classes.resizing);
+		// Remove flag from body
+		this.$body.removeClass(this.classes.resizing);
 
 		// Return self
-        return this;
+		return this;
 	}
 };
