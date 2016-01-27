@@ -1,0 +1,33 @@
+{
+  "name": "djs-resize",
+  "description": "JavaScript library to manage window resize events",
+  "main": [
+    "dist/djs-resize.js",
+    "dist/djs-resize.min.js"
+  ],
+  "authors": [
+    "Edouard Demotes-Mainard"
+  ],
+  "license": "https://opensource.org/licenses/BSD-2-Clause",
+  "keywords": [
+    "window",
+    "resize",
+    "callback",
+    "delay"
+  ],
+  "homepage": "https://github.com/EdouardDem/djs-resize",
+  "moduleType": [
+    "globals"
+  ],
+  "dependencies": {
+    "jquery": "~2.0.3",
+    "djs-call-stack": "~0.1.2"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
