@@ -12,6 +12,7 @@ window.djs = window.djs || {};
  * This object manages window's resizing event.
  * It detects the end of the resizing events suite and trigger callbacks.
  * It also allows to manage callbacks order through the class djs.Callstack
+ * This object is "chainable".
  *
  * @see https://github.com/EdouardDem/djs-resize
  * @requires djs.CallStack <https://github.com/EdouardDem/djs-call-stack>
@@ -29,7 +30,7 @@ djs.resize = {
 	 *
 	 * @var {Integer}
 	 */
-	delay: 0,
+	_delay: 0,
 
 	/**
 	 * CSS classes used to tag the body while processing
@@ -133,7 +134,7 @@ djs.resize = {
 			if (this.initialized) {
 
 				// If a delay is defined, we set a timeout to trigger call stacks
-				if (this.delay > 0) {
+				if (this._delay > 0) {
 
 					// Clear timeout of previous resize's event
 					clearTimeout(this.timeout);
@@ -144,7 +145,7 @@ djs.resize = {
 						// Call the refresh
 						this.refresh();
 
-					}.bind(this), this.delay);
+					}.bind(this), this._delay);
 
 				}
 
@@ -265,6 +266,17 @@ djs.resize = {
 		this.$body.removeClass(this.classes.resizing);
 
 		// Return self
+		return this;
+	}
+
+	/**
+	 * Define the delay used to detect the end of the resize.
+	 *
+	 * @param {Integer} delay
+	 * @return {Object}
+	 */
+	delay: function (delay) {
+		this._delay = delay;
 		return this;
 	}
 };
