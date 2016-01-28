@@ -29,7 +29,8 @@ djs.resize = {
 	 * @var {Object}
 	 */
 	classes: {
-		resizing: 'djs-resizing'
+		resizing: 'djs-resizing',
+		pending: 'djs-resize-pending'
 	},
 
 	/**
@@ -141,8 +142,14 @@ djs.resize = {
 					// Clear timeout of previous resize's event
 					clearTimeout(this._timeout);
 
+					// Add flag to body (for CSS use)
+					this._$body.addClass(this.classes.pending);
+
 					// Set new timeout
 					this._timeout = setTimeout(function () {
+
+						// Remove flag from body
+						this._$body.removeClass(this.classes.pending);
 
 						// Call the refresh
 						this.refresh();

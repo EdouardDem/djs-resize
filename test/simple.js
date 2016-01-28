@@ -13,7 +13,7 @@ displayLog = function (text) {
 runTests = function () {
 
 	// Set delay
-	djs.resize.delay(200);
+	djs.resize.delay(500);
 
 	// Init object
 	djs.resize.init();
