@@ -267,7 +267,7 @@ djs.resize = {
 
 		// Return self
 		return this;
-	}
+	},
 
 	/**
 	 * Define the delay used to detect the end of the resize.
