@@ -288,11 +288,17 @@ djs.resize = {
 	},
 
 	/**
-	 * Returns the main stack
+	 * Returns a stack
 	 *
+	 * @param {String} stack (default : main)
 	 * @return {Object}
 	 */
-	stack: function () {
-		return this._stacks.main;
+	stack: function (stack) {
+
+		// Default value
+		if (stack == null) stack = this.stacks.main;
+
+		//Return the stack
+		return this._stacks[stack];
 	}
 };
