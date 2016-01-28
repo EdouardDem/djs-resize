@@ -20,30 +20,22 @@ window.djs = window.djs || {};
 djs.resize = {
 
 	/* ========================================================================
-	 * 	PROPERTIES
+	 * 	CONSTANTS
 	 * ====================================================================== */
-	/**
-	 * Delay used to detect the end of the resize.
-	 * For example, if we define delay = 100, then if a resize starts and no resize's event is recorded for 100ms,
-	 * we will consider the resizing is done and run the callbacks.
-	 * To disables this feature, delay should be set to 0.
-	 *
-	 * @var {Integer}
-	 */
-	_delay: 0,
-
 	/**
 	 * CSS classes used to tag the body while processing
 	 *
+	 * @const
 	 * @var {Object}
 	 */
 	classes: {
-		resizing: 'resizing'
+		resizing: 'djs-resizing'
 	},
 
 	/**
 	 * Names and order of the call stacks used by this object
 	 *
+	 * @const
 	 * @var {Object}
 	 */
 	stacks: {
@@ -52,9 +44,24 @@ djs.resize = {
 		last: 'last'
 	},
 
+	/* ========================================================================
+	 * 	PROPERTIES
+	 * ====================================================================== */
+	/**
+	 * Delay used to detect the end of the resize.
+	 * For example, if we define delay = 100, then if a resize starts and no resize's event is recorded for 100ms,
+	 * we will consider the resizing is done and run the callbacks.
+	 * To disables this feature, delay should be set to 0.
+	 *
+	 * @private
+	 * @var {Integer}
+	 */
+	_delay: 0,
+
 	/**
 	 * Namespace used to bind events
 	 *
+	 * @private
 	 * @var {String}
 	 */
 	_namespace: 'djs-resize',
@@ -62,44 +69,42 @@ djs.resize = {
 	/**
 	 * Flag used to determine if the object is initialized
 	 *
+	 * @private
 	 * @var {Boolean}
 	 */
-	initialized: false,
+	_initialized: false,
 
 	/**
 	 * The jQuery window object
 	 *
+	 * @private
 	 * @var {Object}
 	 */
-	$window: null,
+	_$window: null,
 
 	/**
 	 * The jQuery body object
 	 *
+	 * @private
 	 * @var {Object}
 	 */
-	$body: null,
+	_$body: null,
 
 	/**
 	 * Object containing the instances of djs.Callstack
 	 *
+	 * @private
 	 * @var {Object}
 	 */
 	_stacks: {},
 
 	/**
-	 * Shortcut to _stack.main
-	 *
-	 * @var {Object}
-	 */
-	stack: null,
-
-	/**
 	 * Object used to get inactivity delay
 	 *
+	 * @private
 	 * @var {Object}
 	 */
-	timeout: null,
+	_timeout: null,
 
 
 	/* ========================================================================
@@ -113,34 +118,31 @@ djs.resize = {
 	init: function () {
 
 		// Check if already initialized
-		if (this.initialized) return this;
+		if (this._initialized) return this;
 
 		// Objects
-		this.$window = $(window);
-		this.$body = $('body');
+		this._$window = $(window);
+		this._$body = $('body');
 
 		// Initialize the call stacks
 		$.each(this.stacks, function (i, e) {
 			this._stacks[e] = new djs.CallStack();
 		}.bind(this));
 
-		// Short cut to the main stack
-		this.stack = this._stacks.main;
-
 		// Bind the resize event
-		this.$window.bind('resize.' + this._namespace, function () {
+		this._$window.bind('resize.' + this._namespace, function () {
 
 			// Check if initialized
-			if (this.initialized) {
+			if (this._initialized) {
 
 				// If a delay is defined, we set a timeout to trigger call stacks
 				if (this._delay > 0) {
 
 					// Clear timeout of previous resize's event
-					clearTimeout(this.timeout);
+					clearTimeout(this._timeout);
 
 					// Set new timeout
-					this.timeout = setTimeout(function () {
+					this._timeout = setTimeout(function () {
 
 						// Call the refresh
 						this.refresh();
@@ -159,7 +161,7 @@ djs.resize = {
 		}.bind(this));
 
 		// Set the flag to prevent another initialization
-		this.initialized = true;
+		this._initialized = true;
 
 		// Return self
 		return this;
@@ -173,17 +175,16 @@ djs.resize = {
 	destroy: function () {
 
 		// Check if already initialized
-		if (!this.initialized) return this;
+		if (!this._initialized) return this;
 
 		// Unbind the events
-		this.$window.unbind('resize.' + this._namespace);
+		this._$window.unbind('resize.' + this._namespace);
 
 		// Reset the stacks
-		this.stack = null;
 		this._stacks = {};
 
 		// Unset the flag
-		this.initialized = false;
+		this._initialized = false;
 
 		// Return self
 		return this;
@@ -244,7 +245,6 @@ djs.resize = {
 	/* ========================================================================
 	 * 	METHODS
 	 * ====================================================================== */
-
 	/**
 	 * Runs all the stacks.
 	 * Subroutine of the resize event.
@@ -255,7 +255,7 @@ djs.resize = {
 	refresh: function () {
 
 		// Add flag to body (for CSS use)
-		this.$body.addClass(this.classes.resizing);
+		this._$body.addClass(this.classes.resizing);
 
 		// Run all stacks
 		$.each(this.stacks, function (i, e) {
@@ -263,7 +263,7 @@ djs.resize = {
 		}.bind(this));
 
 		// Remove flag from body
-		this.$body.removeClass(this.classes.resizing);
+		this._$body.removeClass(this.classes.resizing);
 
 		// Return self
 		return this;
@@ -278,5 +278,14 @@ djs.resize = {
 	delay: function (delay) {
 		this._delay = delay;
 		return this;
+	},
+
+	/**
+	 * Returns the main stack
+	 *
+	 * @return {Object}
+	 */
+	stack: function () {
+		return this._stacks.main;
 	}
 };
