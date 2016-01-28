@@ -4,7 +4,7 @@
  * @param function
  */
 displayLog = function (text) {
-	$('.results').append('<div>' + text + '</div>');
+	$('.results').prepend('<div>' + text + '</div>');
 	console.log(text);
 };
 /**
@@ -12,11 +12,16 @@ displayLog = function (text) {
  */
 runTests = function () {
 
+	// Init object
+	djs.resize.init();
+
 	// Set delay
 	djs.resize.delay(500);
 
-	// Init object
-	djs.resize.init();
+	// Add clallback to stack
+	djs.resize.stack().add('cb-1', function() {
+		displayLog('Callback 1');
+	});
 
 
 };
