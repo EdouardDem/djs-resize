@@ -22,4 +22,20 @@ If you install it with Bower, the dependencies will be included.
 
 ## Usage
 
-To do ...
+### Basic usage
+
+```javascript
+//Init the object (always first)
+djs.resize.init();
+
+//Define the delay (optionnal)
+djs.resize.delay(500);
+
+//Add a callback
+djs.resize.bind('callback-id', function() {
+    // Code ...
+});
+```
+
+### Call stacks
+
