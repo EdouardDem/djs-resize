@@ -269,7 +269,7 @@ djs.resize = {
 		// Default value for stackName
 		if (stackName == null) stackName = this.stacks.main;
 
-		//Delete callback from the stack
+		// Delete callback from the stack
 		this._stacks[stackName].delete(namespace);
 
 		// Return self

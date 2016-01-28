@@ -8,6 +8,13 @@ displayLog = function (text) {
 	console.log(text);
 };
 /**
+ * Clear log
+ */
+clearLog = function () {
+	$('.results').html('');
+	console.clear();
+};
+/**
  * Run the tests
  */
 runTests = function () {
@@ -50,6 +57,17 @@ runTests = function () {
 	// Set the order of the main stack
 	djs.resize.stack().order = ['cb-m-1', 'cb-m-2', 'cb-m-3'];
 
+
+	//----------------------------------------------
+	// Before
+	djs.resize.bind('before', function() {
+		clearLog();
+		displayLog('Resizing...');
+	}, djs.resize.stacks.before);
+	// After
+	djs.resize.bind('before', function() {
+		displayLog('Resize done. Calling stacks.');
+	}, djs.resize.stacks.after);
 
 
 };
