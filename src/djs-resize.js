@@ -296,7 +296,7 @@ djs.resize = {
 	stack: function (stack) {
 
 		// Default value
-		if (stack == null) stack = this._stacks.main;
+		if (stack == null) stack = this.stacks.main;
 
 		//Return the stack
 		return this._stacks[stack];
