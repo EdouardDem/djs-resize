@@ -42,8 +42,12 @@ djs.resize = {
 	stacks: {
 		core: 'core',
 		main: 'main',
-		last: 'last'
+		last: 'last',
+		before: 'before',
+		after: 'after'
 	},
+
+
 
 	/* ========================================================================
 	 * 	PROPERTIES
@@ -74,6 +78,14 @@ djs.resize = {
 	 * @var {Boolean}
 	 */
 	_initialized: false,
+
+	/**
+	 * Flag used for resize pending
+	 *
+	 * @private
+	 * @var {Boolean}
+	 */
+	_pending: false,
 
 	/**
 	 * The jQuery window object
@@ -145,11 +157,27 @@ djs.resize = {
 					// Add flag to body (for CSS use)
 					this._$body.addClass(this.classes.pending);
 
+					// First event ?
+					if (!this._pending) {
+
+						// Rise the flag
+						this._pending = true;
+
+						// Call the stack
+						this._stacks.before.run();
+					}
+
 					// Set new timeout
 					this._timeout = setTimeout(function () {
 
 						// Remove flag from body
 						this._$body.removeClass(this.classes.pending);
+
+						// Unset the flag
+						this._pending = false;
+
+						// Call the stack
+						this._stacks.after.run();
 
 						// Call the refresh
 						this.refresh();
@@ -241,7 +269,7 @@ djs.resize = {
 		// Default value for stackName
 		if (stackName == null) stackName = this.stacks.main;
 
-		//Delete callback from the stack
+		// Delete callback from the stack
 		this._stacks[stackName].delete(namespace);
 
 		// Return self
@@ -264,10 +292,10 @@ djs.resize = {
 		// Add flag to body (for CSS use)
 		this._$body.addClass(this.classes.resizing);
 
-		// Run all stacks
-		$.each(this.stacks, function (i, e) {
-			this._stacks[e].run();
-		}.bind(this));
+		// Run stacks
+		this._stacks.core.run();
+		this._stacks.main.run();
+		this._stacks.last.run();
 
 		// Remove flag from body
 		this._$body.removeClass(this.classes.resizing);
