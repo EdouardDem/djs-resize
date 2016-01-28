@@ -57,7 +57,7 @@ djs.resize = {
 	 *
 	 * @var {String}
 	 */
-	namespace: 'djs-resize',
+	_namespace: 'djs-resize',
 
 	/**
 	 * Flag used to determine if the object is initialized
@@ -128,7 +128,7 @@ djs.resize = {
 		this.stack = this._stacks.main;
 
 		// Bind the resize event
-		this.$window.bind('resize.' + this.namespace, function () {
+		this.$window.bind('resize.' + this._namespace, function () {
 
 			// Check if initialized
 			if (this.initialized) {
@@ -176,7 +176,7 @@ djs.resize = {
 		if (!this.initialized) return this;
 
 		// Unbind the events
-		this.$window.unbind('resize.' + this.namespace);
+		this.$window.unbind('resize.' + this._namespace);
 
 		// Reset the stacks
 		this.stack = null;
