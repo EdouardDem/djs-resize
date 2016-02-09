@@ -65,9 +65,17 @@ runTests = function () {
 		displayLog('Resizing...');
 	}, djs.resize.stacks.before);
 	// After
-	djs.resize.bind('before', function() {
+	djs.resize.bind('after', function() {
 		displayLog('Resize done. Calling stacks.');
 	}, djs.resize.stacks.after);
+
+	//----------------------------------------------
+	// After (to be removed)
+	djs.resize.bind('after-2', function() {
+		displayLog('Should not be called.');
+	}, djs.resize.stacks.after);
+	// Unbind
+	djs.resize.unbind('after-2', djs.resize.stacks.after);
 
 
 };
