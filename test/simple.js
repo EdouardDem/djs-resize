@@ -1,7 +1,7 @@
 /**
  * Log function
  *
- * @param function
+ * @param {String} text
  */
 displayLog = function (text) {
 	$('.results').append('<div>' + text + '</div>');
@@ -80,7 +80,7 @@ runTests = function () {
 
 };
 /**
- * Auto ruun test
+ * Auto run test
  */
 $(document).ready(function () {
 	runTests();
