@@ -20,8 +20,8 @@
     "globals"
   ],
   "dependencies": {
-    "jquery": "~2.0.3",
-    "djs-call-stack": "~0.1.2"
+    "jquery": "^2.0.0",
+    "djs-call-stack": "^0.1.2"
   },
   "ignore": [
     "**/.*",
